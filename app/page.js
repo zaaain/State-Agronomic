@@ -1,113 +1,90 @@
+"use client";
+
+import { useState } from "react";
+import { RiMenuLine } from "react-icons/ri";
+import GoogleMapReact from "@/components/Map";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const data = [
+  {
+    id: 1,
+    img: require(".././public/agri.jpg"),
+    city: "Rawalpindi",
+    state: "Punjab",
+    price: "99999999",
+    status: "Rent",
+  },
+  {
+    id: 2,
+    img: require(".././public/agri2.jpg"),
+    city: "Lahore",
+    state: "Punjab",
+    price: "1000000000",
+    status: "Sale",
+  },
+];
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+const Home = () => {
+  const [coordinates, setCoordinates] = useState({
+    lat: 33.582573,
+    lng: 73.030492,
+  });
+
+  const pakCities = [
+    { city: "Karachi", lat: 24.8607, lng: 67.0011, img: require(".././public/agri.jpg") },
+    { city: "Lahore", lat: 31.5497, lng: 74.3436, img: require(".././public/agri2.jpg") },
+    { city: "Islamabad", lat: 33.6844, lng: 73.0479, img: require(".././public/agri2.jpg") },
+    { city: "Rawalpindi", lat: 33.5651, lng: 73.0169, img: require(".././public/agri2.jpg") },
+    { city: "Faisalabad", lat: 31.4504, lng: 73.135, img: require(".././public/agri2.jpg") },
+    { city: "Multan", lat: 30.1575, lng: 71.5249, img: require(".././public/agri2.jpg") },
+    { city: "Hyderabad", lat: 25.3969, lng: 68.3772, img: require(".././public/agri2.jpg") },
+    // Add more cities as needed
+  ];
+
+  return (
+    <div>
+      <div className="bg-white z-50 left-0 top-0 bottom-0 fixed items-center justify-center py-3 w-[70px] shadow-dashboard">
+        <RiMenuLine
+          style={{ color: "#668968", fontSize: "25px", margin: "0 auto" }}
         />
       </div>
+      <div className="fixed left-[70px] top-0 z-50  pr-5 bottom-0 overflow-auto">
+        <input
+          placeholder="Search Land"
+          className="bg-white shadow-dashboard rounded-[30px] p-5 h-[60px] outline-none w-[400px] ml-5 mt-2"
+        />
+        
+         
+       
+      
+        {/* {data && data.flatMap((item)=>(
+          <div className="shadow-card px-2 ml-5 rounded-2xl mt-2">|
+          <Image src={item.img} draggable={false} className="w-full max-h-[150px] rounded-2xl"/>
+          <div className="px-2 mt-2 ">
+            <div className="flex items-center justify-center">
+          <div className=" bg-[#668968] px-5 h-[30px] rounded-[20px] flex justify-center items-center" >
+          <p className="text-white text-[14px]">{item.status}</p>
+          </div>
+          </div>
+          <p className="font-mono text-[15px] text-[#668968]">Price: <span className="font-mono text-[14px] text-[#000000]">{item.price}</span></p>
+          <p className="font-mono text-[15px] text-[#668968]">City: <span className="font-mono text-[14px] text-[#000000]">{item.city}</span></p>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          </div>
+         
+        </div>
+        ))} */}
       </div>
-    </main>
+      <div className="flex fixed left-[500px] z-50">
+        <div className="bg-white shadow-dashboard h-[30px] px-5 rounded-3xl ml-10 flex items-center mt-6">
+          <p>Agri Land</p>
+        </div>
+        <div className="bg-white shadow-dashboard h-[30px] px-5 rounded-3xl ml-10 flex items-center mt-6">
+          <p>Rental of agricultural</p>
+        </div>
+      </div>
+      <GoogleMapReact coordinates={pakCities} setCoordinates={setCoordinates} />
+    </div>
   );
-}
+};
+
+export default Home;
